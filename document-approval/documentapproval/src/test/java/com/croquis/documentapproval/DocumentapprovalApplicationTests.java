@@ -1,4 +1,4 @@
-package com.croquis.assignment.documentapproval;
+package com.croquis.documentapproval;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
