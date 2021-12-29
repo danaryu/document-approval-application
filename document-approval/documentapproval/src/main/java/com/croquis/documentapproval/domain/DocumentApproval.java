@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "document_approval")
-public class DocumentApproval {
+public class DocumentApproval extends BaseTime {
 
     @Id @GeneratedValue
     @Column(name = "document_approval_id")

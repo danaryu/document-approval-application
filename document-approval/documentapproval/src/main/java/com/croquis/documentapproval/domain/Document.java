@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "document")
-public class Document {
+public class Document extends BaseTime {
 
     @Id @GeneratedValue
     @Column(name = "document_id")
@@ -29,10 +29,7 @@ public class Document {
     @Enumerated(EnumType.STRING)
     private DocumentStatus documentStatus;
 
-    private LocalDateTime createDate;
     private String createId;
-
-    private LocalDateTime changeDate;
     private String changeId;
 
     @OneToMany(mappedBy = "document")
