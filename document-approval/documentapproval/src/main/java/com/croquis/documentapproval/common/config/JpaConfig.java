@@ -1,4 +1,4 @@
-package com.croquis.documentapproval.config;
+package com.croquis.documentapproval.common.config;
 
 
 import org.springframework.context.annotation.Configuration;
