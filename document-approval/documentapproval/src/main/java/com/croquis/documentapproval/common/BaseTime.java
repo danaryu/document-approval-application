@@ -1,4 +1,4 @@
-package com.croquis.documentapproval.domain;
+package com.croquis.documentapproval.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,4 +21,5 @@ public class BaseTime {
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;
+
 }
