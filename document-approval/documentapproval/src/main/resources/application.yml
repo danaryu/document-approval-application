@@ -10,8 +10,11 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        format_true: true
+        format_sql: true
 
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
+
+server:
+  port: 8081

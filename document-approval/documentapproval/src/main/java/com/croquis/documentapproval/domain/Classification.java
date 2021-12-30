@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "document_classification")
+@Table(name = "classification")
 public class Classification {
 
-    @Id @GeneratedValue
-    @Column(name = "classification_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Classification parent;
 
