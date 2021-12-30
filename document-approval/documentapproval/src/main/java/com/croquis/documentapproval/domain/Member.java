@@ -26,8 +26,7 @@ public class Member {
     List<Document> documents = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String email, String password, String username) {
-        this.id = id;
+    public Member(String email, String password, String username) {
         this.email = email;
         this.password = password;
         this.username = username;
@@ -35,8 +34,12 @@ public class Member {
         this.documentApprovals = new ArrayList<>();
     }
 
+    public void addDocumentApproval(DocumentApproval documentApproval) {
+        this.documentApprovals.add(documentApproval);
+        documentApproval.addApprover(this);
+    }
+
     public void addDocument(Document document) {
         this.documents.add(document);
     }
-
 }

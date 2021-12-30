@@ -32,7 +32,7 @@ public class Document extends BaseTime {
     private DocumentStatus documentStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_document_to_author"))
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_document_to_author"), nullable = false)
     private Member author;
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.REMOVE)
@@ -53,6 +53,14 @@ public class Document extends BaseTime {
         this.author = author;
         author.addDocument(this);
         return this;
+    }
+
+    public void addDocumentApproval(DocumentApproval documentApproval) {
+        documentApprovals.add(documentApproval);
+    }
+
+    public void setClassification(Classification classification) {
+        this.classification = classification;
     }
 
 }
