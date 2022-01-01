@@ -18,3 +18,7 @@ logging.level:
 
 server:
   port: 8081
+
+security:
+  jwt:
+    secret: 4oCYc3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWNyb3F1aXMtYXNzaWdubWVudC1iYWNrZW5kLWRvY3VtZW50LWFwcHJvdmFsLWRhbmFyeXXigJkK

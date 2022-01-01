@@ -25,11 +25,15 @@ public class Member {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     List<Document> documents = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     @Builder
-    public Member(String email, String password, String username) {
+    public Member(String email, String password, String username, Authority authority) {
         this.email = email;
         this.password = password;
         this.username = username;
+        this.authority = authority;
         this.documents = new ArrayList<>();
         this.documentApprovals = new ArrayList<>();
     }
@@ -42,4 +46,5 @@ public class Member {
     public void addDocument(Document document) {
         this.documents.add(document);
     }
+
 }
