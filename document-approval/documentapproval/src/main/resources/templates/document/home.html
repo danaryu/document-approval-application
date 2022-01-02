@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="jumbotron">
+        <h2>DOCUMENT APPROVAL SYSTEM</h2>
+        <br>
+        <p>안녕하세요. <span th:text="${memberName}"></span>님! ;) </p>
+        <br>
+        <p class="lead">회원 기능</p>
+        <p>
+            <a class="btn btn-lg btn-light" href="/members">회원 목록</a>
+        </p>
+        <p class="lead">문서</p>
+        <p>
+            <a class="btn btn-lg btn-secondary" href="/documents/new">문서 작성</a>
+            <a class="btn btn-lg btn-secondary" href="/documents">문서 목록</a>
+        </p>
+        <p class="lead">내 결재함</p>
+        <p>
+            <a class="btn btn-lg btn-success" href="/approval/outbox">OUTBOX</a>
+            <a class="btn btn-lg btn-success" href="/approval/inbox">INBOX</a>
+            <a class="btn btn-lg btn-success" href="/approval/archive">ARCHIVE</a>
+        </p>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
