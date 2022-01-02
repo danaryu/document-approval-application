@@ -1,8 +1,15 @@
 package com.croquis.documentapproval.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum Authority {
 
-    ROLE_USER,
-    ROLE_ADMIN;
+    MEMBER("ROLE_MEMBER"),
+    ADMIN("ROLE_ADMIN");
+
+    private String value;
 
 }

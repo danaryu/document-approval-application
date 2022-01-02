@@ -1,16 +1,12 @@
 package com.croquis.documentapproval.service;
 
-import com.croquis.documentapproval.auth.JwtTokenProvider;
-import com.croquis.documentapproval.domain.RefreshToken;
-import com.croquis.documentapproval.dto.GeneratedToken;
-import com.croquis.documentapproval.dto.MemberLoginRequest;
-import com.croquis.documentapproval.dto.MemberLoginResponse;
+import com.croquis.documentapproval.domain.Authority;
+import com.croquis.documentapproval.domain.Member;
 import com.croquis.documentapproval.repository.MemberRepository;
-import com.croquis.documentapproval.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,38 +14,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.security.Provider;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
 
-    @Transactional
-    public MemberLoginResponse findByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .map(MemberLoginResponse::of)
-                .orElseThrow(() -> new UsernameNotFoundException("멤버 정보가 없습니다."));
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. email: " + email));
+
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
+        if (member.getAuth().equals("ROLE_ADMIN")) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(Authority.ADMIN.getValue()));
+        } else {
+            grantedAuthorities.add(new SimpleGrantedAuthority(Authority.MEMBER.getValue()));
+        }
+
+        return new User(member.getEmail(), member.getPassword(), grantedAuthorities);
     }
-
-    @Transactional
-    public GeneratedToken login(MemberLoginRequest memberLoginRequest) {
-        UsernamePasswordAuthenticationToken authenticationToken = memberLoginRequest.toAuthentication();
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        GeneratedToken generatedToken = tokenProvider.generateToken(authentication);
-
-        RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
-                .value(generatedToken.getRefreshToken())
-                .build();
-
-        refreshTokenRepository.save(refreshToken);
-        return generatedToken;
-    }
-
 }
