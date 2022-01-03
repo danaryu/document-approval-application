@@ -20,10 +20,16 @@ class ClassificationTest {
     @Test
     @DisplayName("Classification 자기 참조를 테스트한다.")
     public void set() throws Exception {
-        Classification classification = new Classification("hello", null);
-        Classification classificationChild = new Classification("hello child", classification);
+        Classification classificationA = new Classification("VACATION", null);
+        Classification classificationB = new Classification("WORKSHOP", null);
+        Classification classificationC = new Classification("VACATION01", null);
+        Classification classificationD = new Classification("VACATION02", null);
+        Classification classificationChild = new Classification("hello child", classificationA);
 
-        em.persist(classification);
+        em.persist(classificationA);
+        em.persist(classificationB);
+        em.persist(classificationC);
+        em.persist(classificationD);
         em.persist(classificationChild);
     }
 

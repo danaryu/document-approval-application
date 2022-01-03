@@ -14,31 +14,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class HomeController {
 
     private final MemberRepository memberRepository;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String main() { return "index"; }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login() { return "login/login"; }
 
-    @GetMapping("/login-error")
+    @GetMapping("login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "/login/login";
     }
 
-    @GetMapping("/home")
+    @GetMapping("home")
     public String homeMenu(@AuthenticationPrincipal User user, Model model) {
         String loginUser = user.getUsername();
-        String foundMemberName = memberRepository.findByEmail(loginUser)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. email: " + loginUser))
-                .getUsername();
-        model.addAttribute("memberName", foundMemberName);
-        return "/document/home";
+        Member foundMember = memberRepository.findByEmail(loginUser)
+                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. email: " + loginUser));
+        model.addAttribute("member", foundMember);
+        return "home";
     }
 
 

@@ -10,7 +10,8 @@
     <div class="jumbotron">
         <h2>DOCUMENT APPROVAL SYSTEM</h2>
         <br>
-        <p>안녕하세요. <span th:text="${memberName}"></span>님! ;) </p>
+        <span th:text="|안녕하세요, ${member.username} 님!;)|"></span>
+        <br>
         <br>
         <p class="lead">회원 기능</p>
         <p>
@@ -18,9 +19,9 @@
         </p>
         <p class="lead">문서</p>
         <p>
-            <a class="btn btn-lg btn-secondary" href="/documents/new">문서 작성</a>
+            <a class="btn btn-lg btn-secondary" th:href="@{/documents/new/{id} (id=${member.id})}">문서 작성</a>
+<!--            <a class="btn btn-lg btn-secondary" href="/documents/new">문서 생성</a>-->
             <a class="btn btn-lg btn-secondary" href="/documents">문서 목록</a>
-        </p>
         <p class="lead">내 결재함</p>
         <p>
             <a class="btn btn-lg btn-success" href="/approval/outbox">OUTBOX</a>

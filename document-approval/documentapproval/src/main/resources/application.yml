@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/assignment
+    url: jdbc:h2:tcp://localhost/~/helloworld
     username: admin
     password: admin
     driver-class-name: org.h2.Driver
@@ -17,8 +17,8 @@ logging.level:
   org.hibernate.type: trace
 
 server:
-  port: 8081
+  port: 9004
 
-security:
-  jwt:
-    secret: 4oCYc3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWNyb3F1aXMtYXNzaWdubWVudC1iYWNrZW5kLWRvY3VtZW50LWFwcHJvdmFsLWRhbmFyeXXigJkK
+#security:
+#  jwt:
+#    secret: 4oCYc3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWNyb3F1aXMtYXNzaWdubWVudC1iYWNrZW5kLWRvY3VtZW50LWFwcHJvdmFsLWRhbmFyeXXigJkK
