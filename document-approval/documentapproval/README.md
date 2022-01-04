@@ -48,3 +48,13 @@
   * 결재는 순서대로 진행됩니다. 두번째 결재자가 먼저 결재할 수는 없습니다.
   * 모든 결재자가 승인하면 문서가 승인됩니다. 한명이라도 거절하면 거절됩니다.
   * 문서 승인/거절시 의견을 추가할 수 있습니다.
+
+### 회원 정보
+|회원이름|id (email)|password|
+|------|---|---|
+|MemberA|MemberA@hello.com|hello|
+|MemberB|MemberB@hello.com|hello|
+|MemberC|MemberC@hello.com|hello|
+|MemberD|MemberD@hello.com|hello|
+|MemberE|MemberE@hello.com|hello|
+|MemberF|MemberF@hello.com|hello|
