@@ -24,9 +24,9 @@ class DocumentTest {
     @BeforeEach
     public void set() throws Exception {
         memberA = Member.builder()
-                .email("helloworld@gmail.com")
+                .email("danadot@gmail.com")
                 .password("hello")
-                .username("danadot")
+                .username("danadot123")
                 .build();
 
         documentA = Document.builder()
@@ -54,7 +54,6 @@ class DocumentTest {
 
         em.persist(classification);
         em.persist(classificationChild);
-        em.persist(documentA);
     }
 
 }

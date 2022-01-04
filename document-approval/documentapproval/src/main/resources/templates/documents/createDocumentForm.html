@@ -4,7 +4,9 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <br>
     <form th:object="${form}" th:action="@{/documents/new}" method="post">
+        <h5>결재 문서</h5>
         <div class="form-group">
             <label th:for="title">제목</label>
             <input type="text" th:field="*{title}" class="form-control"
@@ -28,6 +30,57 @@
                         th:text="${classification.name}" />
             </select>
         </div>
+        <br>
+        <br>
+        <!-- 결재자 -->
+        <h5>결재자 선택</h5>
+        <div class="form-group">
+            <label for="firstApprover">첫번째 결재자</label>
+            <select th:field="*{firstApproverId}" id="firstApprover" class="form-control">
+                <option value="">첫번째 결재자 선택</option>
+                <option th:each="approver : ${approverList}"
+                        th:value="${approver.id}"
+                        th:text="${approver.username}" />
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="secondApprover">두번째 결재자</label>
+            <select th:field="*{secondApproverId}" id="secondApprover" class="form-control">
+                <option value="">두번째 결재자 선택</option>
+                <option th:each="approver : ${approverList}"
+                        th:value="${approver.id}"
+                        th:text="${approver.username}" />
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="thirdApprover">세번째 결재자</label>
+            <select th:field="*{thirdApproverId}" id="thirdApprover" class="form-control">
+                <option value="">세번째 결재자 선택</option>
+                <option th:each="approver : ${approverList}"
+                        th:value="${approver.id}"
+                        th:text="${approver.username}" />
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fourthApprover">네번째 결재자</label>
+            <select th:field="*{fourthApproverId}" id="fourthApprover" class="form-control">
+                <option value="">네번째 결재자 선택</option>
+                <option th:each="approver : ${approverList}"
+                        th:value="${approver.id}"
+                        th:text="${approver.username}" />
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fifthApprover">다섯번째 결재자</label>
+            <select th:field="*{fifthApproverId}" id="fifthApprover" class="form-control">
+                <option value="">다섯번째 결재자 선택</option>
+                <option th:each="approver : ${approverList}"
+                        th:value="${approver.id}"
+                        th:text="${approver.username}" />
+            </select>
+        </div>
+
+
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
     <br/>

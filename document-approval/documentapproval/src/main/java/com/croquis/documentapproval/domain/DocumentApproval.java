@@ -4,6 +4,7 @@ import com.croquis.documentapproval.common.BaseTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -26,7 +27,7 @@ public class DocumentApproval extends BaseTime {
     private Document document;
 
     @Column(name = "approval_sequence")
-    private Long approvalSequence;
+    private int approvalSequence;
 
     @Column(name = "document_status")
     @Enumerated(EnumType.STRING)
@@ -35,10 +36,17 @@ public class DocumentApproval extends BaseTime {
     @Lob
     private String comment;
 
-    public DocumentApproval(Member approver, Document document, Long approvalSequence) {
+    public DocumentApproval(Member approver, Document document, int approvalSequence) {
         this.approver = approver;
         this.document = document;
         this.approvalSequence = approvalSequence;
+    }
+
+    public DocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
+        this.approver = approver;
+        this.document = document;
+        this.approvalSequence = approvalSequence;
+        this.documentApprovalStatus = documentApprovalStatus;
     }
 
     public void updateApprovalStatus(DocumentStatus status) {
@@ -51,8 +59,11 @@ public class DocumentApproval extends BaseTime {
 
     public void setDocument(Document document) {
         this.document = document;
-        document.addDocumentApproval(this);
+        document.getDocumentApprovals().add(this);
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
 }

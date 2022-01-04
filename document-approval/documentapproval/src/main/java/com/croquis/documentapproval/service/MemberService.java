@@ -29,13 +29,9 @@ public class MemberService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. email: " + email));
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        if(member.getAuth().equals("ROLE_ADMIN")) grantedAuthorities.add(new SimpleGrantedAuthority(Authority.ADMIN.getValue()));
 
-        if (member.getAuth().equals("ROLE_ADMIN")) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(Authority.ADMIN.getValue()));
-        } else {
-            grantedAuthorities.add(new SimpleGrantedAuthority(Authority.MEMBER.getValue()));
-        }
-
+        grantedAuthorities.add(new SimpleGrantedAuthority(Authority.MEMBER.getValue()));
         return new User(member.getEmail(), member.getPassword(), grantedAuthorities);
     }
 }

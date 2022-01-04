@@ -21,7 +21,7 @@ class MemberTest {
     @PersistenceContext
     EntityManager em;
 
-    private Member memberA, memberB;
+    private Member memberA, memberB, memberC, memberD, memberE, memberF;
     private Document documentA;
     private DocumentApproval documentApproval = new DocumentApproval();
 
@@ -44,8 +44,40 @@ class MemberTest {
                 .authority("ROLE_MEMBER")
                 .build();
 
+        memberC = Member.builder()
+                .email("approver1@gmail.com")
+                .password(passwordEncoder.encode("hello"))
+                .username("dandotC")
+                .authority("ROLE_MEMBER")
+                .build();
+
+        memberD = Member.builder()
+                .email("approver2@gmail.com")
+                .password(passwordEncoder.encode("hello"))
+                .username("dandotD")
+                .authority("ROLE_MEMBER")
+                .build();
+
+        memberE = Member.builder()
+                .email("approver3@gmail.com")
+                .password(passwordEncoder.encode("hello"))
+                .username("dandotE")
+                .authority("ROLE_MEMBER")
+                .build();
+
+        memberF = Member.builder()
+                .email("apporver4@gmail.com")
+                .password(passwordEncoder.encode("hello"))
+                .username("dandotF")
+                .authority("ROLE_MEMBER")
+                .build();
+
         em.persist(memberA);
         em.persist(memberB);
+        em.persist(memberC);
+        em.persist(memberD);
+        em.persist(memberE);
+        em.persist(memberF);
 
         documentA = Document.builder()
                 .title("helloworld")

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form role="form" th:action="@{/approval/approve}" method="post">
+        <div class="form-group">
+            <label th:for="approveId">결재 문서 번호</label>
+            <input type="text" class="form-control" th:name="approvalId" th:value="${approvalId}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="comment">승인의견</label>
+            <input type="text" th:name="comment" class="form-control" id="comment"
+                   placeholder="결재 승인 의견을 입력하세요.">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
