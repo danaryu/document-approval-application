@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>문서번호</th>
+                <th>작성자</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>분류</th>
+                <th>문서상태</th>
+            </tr>
+            </thead>
+            <tbody>
+                <div th:if="${outboxList != null}">
+                    <tr th:each="outbox : ${outboxList}">
+                        <td th:text="${outbox.id}"></td>
+                        <td th:text="${outbox.author.username}"></td>
+                        <td th:text="${outbox.title}"></td>
+                        <td th:text="${outbox.content}"></td>
+                        <td th:text="${outbox.classification.name}"></td>
+                        <td th:text="${outbox.documentStatus.value}"></td>
+                    </tr>
+                </div>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

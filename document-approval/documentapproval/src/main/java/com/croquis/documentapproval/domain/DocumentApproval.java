@@ -2,12 +2,11 @@ package com.croquis.documentapproval.domain;
 
 import com.croquis.documentapproval.common.BaseTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 
 @Entity
 @Getter
@@ -36,17 +35,28 @@ public class DocumentApproval extends BaseTime {
     @Lob
     private String comment;
 
-    public DocumentApproval(Member approver, Document document, int approvalSequence) {
-        this.approver = approver;
+    public DocumentApproval(Document document, Member approver) {
         this.document = document;
-        this.approvalSequence = approvalSequence;
+        this.approver = approver;
     }
 
-    public DocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
+    private DocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
         this.approver = approver;
         this.document = document;
         this.approvalSequence = approvalSequence;
         this.documentApprovalStatus = documentApprovalStatus;
+    }
+
+    public DocumentApproval(long id, Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
+        this.id = id;
+        this.approver = approver;
+        this.document = document;
+        this.approvalSequence = approvalSequence;
+        this.documentApprovalStatus = documentApprovalStatus;
+    }
+
+    public static DocumentApproval createDocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
+        return new DocumentApproval(approver, document, approvalSequence, documentApprovalStatus);
     }
 
     public void updateApprovalStatus(DocumentStatus status) {

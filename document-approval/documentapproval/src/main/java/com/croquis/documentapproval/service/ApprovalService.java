@@ -4,6 +4,7 @@ import com.croquis.documentapproval.domain.Document;
 import com.croquis.documentapproval.domain.DocumentApproval;
 import com.croquis.documentapproval.domain.DocumentStatus;
 import com.croquis.documentapproval.domain.Member;
+import com.croquis.documentapproval.exception.ErrorCode;
 import com.croquis.documentapproval.exception.NotFoundException;
 import com.croquis.documentapproval.repository.DocumentApprovalRepository;
 import com.croquis.documentapproval.repository.DocumentRepository;
@@ -25,56 +26,75 @@ public class ApprovalService {
     private final DocumentRepository documentRepository;
     private final DocumentApprovalRepository documentApprovalRepository;
 
+    /**
+     * INBOX 조회
+     * - 결재 상태 진행 중
+     * - 결재자가 Login한 Member 본인인 경우
+     */
     public List<DocumentApproval> findInbox(String email) {
-        // username으로 member찾기
         Member foundMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + email));
-
-        // Document approval member_id: 나 && status: Processing
         return documentApprovalRepository.findAllByApproverAndDocumentApprovalStatus(foundMember, DocumentStatus.PROCESSING);
     }
 
     public void approveDocument(Long approvalId, String comment) {
-        DocumentApproval foundDocumentApproval = documentApprovalRepository.findById(approvalId).orElseThrow(() -> new NotFoundException("문서 정보를 찾을 수 없습니다." + approvalId));
+        DocumentApproval foundDocumentApproval = documentApprovalRepository.findById(approvalId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
 
-        // 결재 승인
         foundDocumentApproval.updateApprovalStatus(DocumentStatus.APPROVED);
-        // 결재 의견
         foundDocumentApproval.setComment(comment);
 
-        // 다음 결재 문서 체크
+        // 결재 문서에 다음 순서가 있는지 확인
         Document document = foundDocumentApproval.getDocument();
         int nextApprovalSequence = foundDocumentApproval.getApprovalSequence() + 1;
         Optional<DocumentApproval> nextApprovalDocument = documentApprovalRepository.findByDocumentAndApprovalSequence(document, nextApprovalSequence);
 
-        if(!hasNextApprover(nextApprovalDocument)) {
-            System.out.println("document.getId() = " + document.getId());
+        if (!hasNextApprover(nextApprovalDocument)) {
             Document foundDocument = documentRepository.findById(document.getId())
-                    .orElseThrow(() -> new NotFoundException("문서 정보를 찾을 수 없습니다."));
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
             document.updateDocumentStatus(DocumentStatus.APPROVED);
             return;
         }
 
         DocumentApproval documentApproval = nextApprovalDocument
-                .orElseThrow(() -> new NotFoundException("결재 문서 정보를 찾을 수 없습니다. " + nextApprovalSequence));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
         documentApproval.updateApprovalStatus(DocumentStatus.PROCESSING);
     }
 
     public void returnDocument(Long approvalId, String comment) {
-        DocumentApproval foundDocumentApproval = documentApprovalRepository.findById(approvalId).orElseThrow(() -> new NotFoundException("문서 정보를 찾을 수 없습니다." + approvalId));
-
-        // 결재 승인
+        DocumentApproval foundDocumentApproval = documentApprovalRepository.findById(approvalId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
         foundDocumentApproval.updateApprovalStatus(DocumentStatus.RETURNED);
-        // 결재 의견
         foundDocumentApproval.setComment(comment);
 
-        // TODO 반려된 Document에 대한 Document Approval의 상태도 모두 변경
-        // 문서 상태 변경
+        // TODO 반려된 Document에 대한 Document Approval의 상태도 모두 변경 필요
         foundDocumentApproval.getDocument().updateDocumentStatus(DocumentStatus.RETURNED);
     }
 
     private boolean hasNextApprover(Optional<DocumentApproval> nextApprovalDocument) {
         return nextApprovalDocument.isPresent();
+    }
+
+    /**
+     * OUTBOX 조회
+     * - 작성자가 Login한 Member 본인인 경우
+     * - 결재 진행 중인 문서
+     */
+    public List<Document> findOutbox(String email) {
+        Member foundMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + email));
+        return documentRepository.findAllByAuthorAndDocumentStatus(foundMember, DocumentStatus.PROCESSING);
+    }
+
+    /**
+     * ARCHIVE 조회
+     * - 결재자에 Member 본인이 포함된 경우
+     * - 결재가 완료된 문서 (승인/거절)
+     */
+    public List<Document> findArchive(String email) {
+        Member foundMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + email));
+        return documentRepository.findAllDocumentApprovals(foundMember.getId(), DocumentStatus.PROCESSING);
     }
 
 }

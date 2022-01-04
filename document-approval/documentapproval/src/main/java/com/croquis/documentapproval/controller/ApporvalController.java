@@ -23,12 +23,6 @@ public class ApporvalController {
     private final ApprovalService approvalService;
     private final DocumentService documentService;
 
-    /**
-     * INBOX 조회
-     * - 결재 상태 진행 중
-     * - 결재자가 Login한 Member 본인인 경우
-     */
-
     @GetMapping("/inbox")
     public String findInbox(@AuthenticationPrincipal User user, Model model) {
         List<DocumentApproval> inboxList = approvalService.findInbox(user.getUsername());
@@ -72,24 +66,18 @@ public class ApporvalController {
         return "redirect:/home";
     }
 
-    /**
-     * ARCHIVE 조회
-     * - 결재자에 Member 본인이 포함된 경우
-     * - 결재가 완료된 문서 (승인/거절)
-     */
     @GetMapping("/archive")
-    public String findArchive(Model model) {
-        return "approvals/itemList";
+    public String findArchive(@AuthenticationPrincipal User user, Model model) {
+        List<Document> archiveList = approvalService.findArchive(user.getUsername());
+        model.addAttribute("archiveList", archiveList);
+        return "approvals/archive";
     }
 
-    /**
-     * OUTBOX 조회
-     * - 작성자가 Login한 Member 본인인 경우
-     * - 결재 진행 중인 문서
-     */
     @GetMapping("/outbox")
-    public String findOutbox(Model model) {
-        return "approvals/itemList";
+    public String findOutbox(@AuthenticationPrincipal User user, Model model) {
+        List<Document> outboxList = approvalService.findOutbox(user.getUsername());
+        model.addAttribute("outboxList", outboxList);
+        return "approvals/outbox";
     }
 
 }
