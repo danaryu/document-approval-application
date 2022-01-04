@@ -47,8 +47,8 @@ class DocumentTest {
     @Test
     @DisplayName("문서의 분류를 설정할 수 있다.")
     public void classification() throws Exception {
-        Classification classification = new Classification("hello", null);
-        Classification classificationChild = new Classification("hello child", classification);
+        Classification classification = new Classification(1L, "hello", null);
+        Classification classificationChild = new Classification(2L, "hello child", classification);
 
         documentA.setClassification(classificationChild);
 

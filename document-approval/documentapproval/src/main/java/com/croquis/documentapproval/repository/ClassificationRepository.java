@@ -10,7 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ClassificationRepository extends JpaRepository<Classification, Long> {
-
     List<Classification> findByParentIsNull();
-
 }

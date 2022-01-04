@@ -2,7 +2,6 @@ package com.croquis.documentapproval.controller;
 
 import com.croquis.documentapproval.domain.Member;
 import com.croquis.documentapproval.repository.MemberRepository;
-import com.croquis.documentapproval.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;

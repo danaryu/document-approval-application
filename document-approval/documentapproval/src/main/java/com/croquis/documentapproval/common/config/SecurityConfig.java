@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity // Spring Security 설정 클래스로 등록//
+@EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MemberService memberService;
@@ -36,18 +36,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/**").permitAll()
             .anyRequest().authenticated()
             .and()
-            .formLogin()
-            .loginPage("/user/login")
-            .failureUrl("/login-error")
-            .defaultSuccessUrl("/home")
+                .formLogin()
+                .loginPage("/user/login")
+                .failureUrl("/login-error")
+                .defaultSuccessUrl("/home")
             .and()
             .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/")
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
             .and()
-            .exceptionHandling().accessDeniedPage("/denied");
+                .exceptionHandling().accessDeniedPage("/denied");
     }
 
     @Override
