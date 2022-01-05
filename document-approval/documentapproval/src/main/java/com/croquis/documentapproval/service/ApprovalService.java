@@ -32,8 +32,7 @@ public class ApprovalService {
      * - 결재자가 Login한 Member 본인인 경우
      */
     public List<DocumentApproval> findInbox(String email) {
-        Member foundMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + email));
+        Member foundMember = getMember(memberRepository, email);
         return documentApprovalRepository.findAllByApproverAndDocumentApprovalStatus(foundMember, DocumentStatus.PROCESSING);
     }
 
@@ -81,8 +80,7 @@ public class ApprovalService {
      * - 결재 진행 중인 문서
      */
     public List<Document> findOutbox(String email) {
-        Member foundMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + email));
+        Member foundMember = getMember(memberRepository, email);
         return documentRepository.findAllByAuthorAndDocumentStatus(foundMember, DocumentStatus.PROCESSING);
     }
 
@@ -92,9 +90,14 @@ public class ApprovalService {
      * - 결재가 완료된 문서 (승인/거절)
      */
     public List<Document> findArchive(String email) {
-        Member foundMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + email));
+        Member foundMember = getMember(memberRepository, email);
         return documentRepository.findAllDocumentApprovals(foundMember.getId(), DocumentStatus.PROCESSING);
+    }
+
+    private Member getMember(MemberRepository memberRepository, String email) {
+        Member foundMember = memberRepository.findByEmail(email)
+                .orElseThrow(() ->  new NotFoundException(ErrorCode.INVALID_REQUEST));
+        return foundMember;
     }
 
 }

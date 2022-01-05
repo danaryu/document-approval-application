@@ -2,6 +2,8 @@ package com.croquis.documentapproval.service;
 
 import com.croquis.documentapproval.domain.Authority;
 import com.croquis.documentapproval.domain.Member;
+import com.croquis.documentapproval.exception.ErrorCode;
+import com.croquis.documentapproval.exception.NotFoundException;
 import com.croquis.documentapproval.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +25,7 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. email: " + email));
+                .orElseThrow(() ->  new NotFoundException(ErrorCode.INVALID_REQUEST));
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         if(member.getAuth().equals("ROLE_ADMIN")) grantedAuthorities.add(new SimpleGrantedAuthority(Authority.ADMIN.getValue()));

@@ -30,7 +30,7 @@ public class DocumentController {
     @GetMapping("/new/{memberId}")
     public String createDocumentForm(Model model, @PathVariable Long memberId) {
         Member foundMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. memberId: " + memberId));
+                .orElseThrow(() ->  new NotFoundException(ErrorCode.INVALID_REQUEST));
         List<Classification> mainClassification = classificationRepository.findByParentIsNull();
         List<Member> memberList = memberRepository.findAll();
 

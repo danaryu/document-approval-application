@@ -27,7 +27,7 @@ public class DocumentService {
 
     public void saveDocument(String authorName, String title, String content, Long classificationId, Member firstApprover, List<Member> otherApprovers) {
         Member foundAuthor = memberRepository.findByUsername(authorName)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. : " + authorName));
+                .orElseThrow(() ->  new NotFoundException(ErrorCode.INVALID_REQUEST));
 
         Classification foundClassification = classificationRepository.findById(classificationId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
