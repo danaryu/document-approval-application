@@ -10,6 +10,11 @@ import lombok.ToString;
 public class DocumentForm {
     private String title;
     private String content;
-    private String classificationId;
+    private Long classificationId;
     private String authorName;
+    private Long firstApproverId;
+    private Long secondApproverId;
+    private Long thirdApproverId;
+    private Long fourthApproverId;
+    private Long fifthApproverId;
 }

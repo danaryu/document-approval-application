@@ -2,11 +2,11 @@ package com.croquis.documentapproval.domain;
 
 import com.croquis.documentapproval.common.BaseTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 
 @Entity
 @Getter
@@ -26,7 +26,7 @@ public class DocumentApproval extends BaseTime {
     private Document document;
 
     @Column(name = "approval_sequence")
-    private Long approvalSequence;
+    private int approvalSequence;
 
     @Column(name = "document_status")
     @Enumerated(EnumType.STRING)
@@ -35,10 +35,28 @@ public class DocumentApproval extends BaseTime {
     @Lob
     private String comment;
 
-    public DocumentApproval(Member approver, Document document, Long approvalSequence) {
+    public DocumentApproval(Document document, Member approver) {
+        this.document = document;
+        this.approver = approver;
+    }
+
+    private DocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
         this.approver = approver;
         this.document = document;
         this.approvalSequence = approvalSequence;
+        this.documentApprovalStatus = documentApprovalStatus;
+    }
+
+    public DocumentApproval(long id, Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
+        this.id = id;
+        this.approver = approver;
+        this.document = document;
+        this.approvalSequence = approvalSequence;
+        this.documentApprovalStatus = documentApprovalStatus;
+    }
+
+    public static DocumentApproval createDocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
+        return new DocumentApproval(approver, document, approvalSequence, documentApprovalStatus);
     }
 
     public void updateApprovalStatus(DocumentStatus status) {
@@ -51,8 +69,11 @@ public class DocumentApproval extends BaseTime {
 
     public void setDocument(Document document) {
         this.document = document;
-        document.addDocumentApproval(this);
+        document.getDocumentApprovals().add(this);
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
 }

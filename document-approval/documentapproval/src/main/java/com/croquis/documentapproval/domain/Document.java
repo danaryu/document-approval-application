@@ -63,4 +63,7 @@ public class Document extends BaseTime {
         this.classification = classification;
     }
 
+    public void updateDocumentStatus(DocumentStatus status) {
+        this.documentStatus = status;
+    }
 }

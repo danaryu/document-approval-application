@@ -1,17 +1,15 @@
 package com.croquis.documentapproval.controller;
 
 import com.croquis.documentapproval.domain.Member;
+import com.croquis.documentapproval.exception.ErrorCode;
+import com.croquis.documentapproval.exception.NotFoundException;
 import com.croquis.documentapproval.repository.MemberRepository;
-import com.croquis.documentapproval.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -36,7 +34,7 @@ public class HomeController {
     public String homeMenu(@AuthenticationPrincipal User user, Model model) {
         String loginUser = user.getUsername();
         Member foundMember = memberRepository.findByEmail(loginUser)
-                .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다. email: " + loginUser));
+                .orElseThrow(() ->  new NotFoundException(ErrorCode.INVALID_REQUEST));
         model.addAttribute("member", foundMember);
         return "home";
     }

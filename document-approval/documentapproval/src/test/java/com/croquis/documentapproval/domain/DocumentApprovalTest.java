@@ -25,14 +25,14 @@ class DocumentApprovalTest {
     @BeforeEach
     public void document_approval_set() throws Exception {
         memberA = Member.builder()
-                .email("helloworld@gmail.com")
+                .email("12@gmail.com")
                 .password("hello")
-                .username("danadotA")
+                .username("dana")
                 .build();
 
         documentA = Document.builder()
-                .title("helloworld")
-                .content("helloworld")
+                .title("123")
+                .content("123")
                 .documentStatus(DocumentStatus.PROCESSING)
                 .build();
 
@@ -45,7 +45,7 @@ class DocumentApprovalTest {
     @Test
     @DisplayName("결재문서의 결재 상태를 변경할 수 있다.")
     public void updateApprovalStatus() throws Exception {
-        DocumentApproval documentApproval = new DocumentApproval(memberA, documentA, 1L);
+        // DocumentApproval documentApproval = new DocumentApproval(memberA, documentA, 1);
         documentApproval.updateApprovalStatus(DocumentStatus.PROCESSING);
 
         em.persist(documentApproval);

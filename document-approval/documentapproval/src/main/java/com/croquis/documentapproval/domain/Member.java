@@ -34,7 +34,8 @@ public class Member implements UserDetails {
     private String auth;
 
     @Builder
-    public Member(String email, String password, String username, String authority) {
+    public Member(Long id, String email, String password, String username, String authority) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;

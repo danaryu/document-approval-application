@@ -1,6 +1,5 @@
 package com.croquis.documentapproval.domain;
 
-import jdk.jfr.Category;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,8 @@ public class Classification {
     @OneToMany(mappedBy = "parent")
     private List<Classification> child = new ArrayList<>();
 
-    public Classification(String name, Classification parent) {
+    public Classification(Long id, String name, Classification parent) {
+        this.id = id;
         this.name = name;
         this.parent = parent;
     }
