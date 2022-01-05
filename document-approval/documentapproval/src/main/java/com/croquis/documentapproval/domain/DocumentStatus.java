@@ -1,8 +1,11 @@
 package com.croquis.documentapproval.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@AllArgsConstructor
 public enum DocumentStatus {
 
     // 결재 진행중
@@ -14,10 +17,5 @@ public enum DocumentStatus {
 
     private String status;
     private String value;
-
-    DocumentStatus(String status, String value) {
-        this.status = status;
-        this.value = value;
-    }
 
 }

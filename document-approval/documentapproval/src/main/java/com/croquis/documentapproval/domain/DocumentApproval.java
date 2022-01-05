@@ -35,18 +35,12 @@ public class DocumentApproval extends BaseTime {
     @Lob
     private String comment;
 
-    public DocumentApproval(Document document, Member approver) {
+    private DocumentApproval(Document document, Member approver) {
         this.document = document;
         this.approver = approver;
     }
 
-    private DocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
-        this.approver = approver;
-        this.document = document;
-        this.approvalSequence = approvalSequence;
-        this.documentApprovalStatus = documentApprovalStatus;
-    }
-
+    @Builder
     public DocumentApproval(long id, Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
         this.id = id;
         this.approver = approver;
@@ -56,7 +50,12 @@ public class DocumentApproval extends BaseTime {
     }
 
     public static DocumentApproval createDocumentApproval(Member approver, Document document, int approvalSequence, DocumentStatus documentApprovalStatus) {
-        return new DocumentApproval(approver, document, approvalSequence, documentApprovalStatus);
+        return DocumentApproval.builder()
+                .approver(approver)
+                .document(document)
+                .approvalSequence(approvalSequence)
+                .documentApprovalStatus(documentApprovalStatus)
+                .build();
     }
 
     public void updateApprovalStatus(DocumentStatus status) {

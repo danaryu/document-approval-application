@@ -24,7 +24,7 @@ public class Member implements UserDetails {
     private String password;
     private String username;
 
-    @OneToMany(mappedBy = "approver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "approver")
     List<DocumentApproval>  documentApprovals = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
