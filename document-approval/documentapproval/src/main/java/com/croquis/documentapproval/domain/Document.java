@@ -35,7 +35,7 @@ public class Document extends BaseTime {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_document_to_author"), nullable = false)
     private Member author;
 
-    @OneToMany(mappedBy = "document", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL)
     List<DocumentApproval> documentApprovals = new ArrayList<>();
 
     @Builder
@@ -53,6 +53,15 @@ public class Document extends BaseTime {
         this.author = author;
         author.addDocument(this);
         return this;
+    }
+
+    public static Document createDocument(String title, String content, DocumentStatus processing, Classification foundClassification) {
+        return Document.builder()
+                .title(title)
+                .content(content)
+                .documentStatus(DocumentStatus.PROCESSING)
+                .classification(foundClassification)
+                .build();
     }
 
     public void addDocumentApproval(DocumentApproval documentApproval) {

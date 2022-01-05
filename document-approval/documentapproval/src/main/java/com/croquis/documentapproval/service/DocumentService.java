@@ -12,8 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.croquis.documentapproval.domain.Document.createDocument;
 import static com.croquis.documentapproval.domain.DocumentApproval.*;
 
 @Service
@@ -27,26 +30,20 @@ public class DocumentService {
 
     public void saveDocument(String authorName, String title, String content, Long classificationId, Member firstApprover, List<Member> otherApprovers) {
         Member foundAuthor = memberRepository.findByUsername(authorName)
-                .orElseThrow(() ->  new NotFoundException(ErrorCode.INVALID_REQUEST));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
 
         Classification foundClassification = classificationRepository.findById(classificationId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
 
-        Document document = Document.builder()
-                .title(title)
-                .content(content)
-                .documentStatus(DocumentStatus.PROCESSING)
-                .classification(foundClassification)
-                .build();
+        Document document = createDocument(title, content, DocumentStatus.PROCESSING, foundClassification);
         document.writtenBy(foundAuthor);
 
         DocumentApproval documentApproval = createDocumentApproval(firstApprover, document, 1, DocumentStatus.PROCESSING);
-
         // 첫번째 순서 결재자만 결재 진행중으로 insert
         documentApprovalRepository.save(documentApproval);
         // 그외 결재자는 결재순대로 insert,  approval status : null
         otherApprovers.stream()
-                .map(approver -> createDocumentApproval(approver, document,otherApprovers.indexOf(approver) + 2, null))
+                .map(approver -> createDocumentApproval(approver, document, otherApprovers.indexOf(approver) + 2, null))
                 .forEach(documentApprovalRepository::save);
     }
 
@@ -54,4 +51,8 @@ public class DocumentService {
         return documentRepository.findById(documentId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
     }
+
+
 }
+
+

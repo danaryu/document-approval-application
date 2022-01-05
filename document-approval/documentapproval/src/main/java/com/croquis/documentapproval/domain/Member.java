@@ -27,7 +27,7 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "approver")
     List<DocumentApproval>  documentApprovals = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     List<Document> documents = new ArrayList<>();
 
     @Column(name = "auth")
