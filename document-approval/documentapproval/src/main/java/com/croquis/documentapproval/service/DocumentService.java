@@ -35,9 +35,7 @@ public class DocumentService {
         Classification foundClassification = classificationRepository.findById(classificationId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.INVALID_REQUEST));
 
-        Document document = createDocument(title, content, DocumentStatus.PROCESSING, foundClassification);
-        document.writtenBy(foundAuthor);
-
+        Document document = createDocument(foundAuthor, title, content, DocumentStatus.PROCESSING, foundClassification);
         DocumentApproval documentApproval = createDocumentApproval(firstApprover, document, 1, DocumentStatus.PROCESSING);
         // 첫번째 순서 결재자만 결재 진행중으로 insert
         documentApprovalRepository.save(documentApproval);

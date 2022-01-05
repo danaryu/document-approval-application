@@ -55,13 +55,15 @@ public class Document extends BaseTime {
         return this;
     }
 
-    public static Document createDocument(String title, String content, DocumentStatus processing, Classification foundClassification) {
-        return Document.builder()
+    public static Document createDocument(Member author, String title, String content, DocumentStatus processing, Classification foundClassification) {
+        Document document = Document.builder()
                 .title(title)
                 .content(content)
                 .documentStatus(DocumentStatus.PROCESSING)
                 .classification(foundClassification)
                 .build();
+        document.writtenBy(author);
+        return document;
     }
 
     public void addDocumentApproval(DocumentApproval documentApproval) {
