@@ -10,7 +10,6 @@ import com.croquis.documentapproval.repository.DocumentApprovalRepository;
 import com.croquis.documentapproval.repository.DocumentRepository;
 import com.croquis.documentapproval.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

@@ -31,7 +31,7 @@ public class Document extends BaseTime {
     @Enumerated(EnumType.STRING)
     private DocumentStatus documentStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_document_to_author"), nullable = false)
     private Member author;
 
@@ -55,13 +55,15 @@ public class Document extends BaseTime {
         return this;
     }
 
-    public static Document createDocument(String title, String content, DocumentStatus processing, Classification foundClassification) {
-        return Document.builder()
+    public static Document createDocument(Member author, String title, String content, DocumentStatus processing, Classification foundClassification) {
+        Document document = Document.builder()
                 .title(title)
                 .content(content)
                 .documentStatus(DocumentStatus.PROCESSING)
                 .classification(foundClassification)
                 .build();
+        document.writtenBy(author);
+        return document;
     }
 
     public void addDocumentApproval(DocumentApproval documentApproval) {
