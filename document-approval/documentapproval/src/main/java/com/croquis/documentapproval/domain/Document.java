@@ -31,7 +31,7 @@ public class Document extends BaseTime {
     @Enumerated(EnumType.STRING)
     private DocumentStatus documentStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_document_to_author"), nullable = false)
     private Member author;
 

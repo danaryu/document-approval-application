@@ -18,4 +18,4 @@ logging.level:
   org.hibernate.type: trace
 
 server:
-  port: 9006
+  port: 9007
