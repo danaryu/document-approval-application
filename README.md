@@ -2,14 +2,15 @@
 - Spring Boot 2.6.2 (Java 11)
 - Hibernate, JPA
 - Gradle
-- Thymeleaf (공부 중.. 🥲) 
+- Thymeleaf (공부 중.. 🥲)  
 
-
+<br></br>
+  
 ## Tiny Web Application for Document Approval (문서 전자 결재 시스템)
 #### 작디 작은 웹 어플리케이션 + 거기에 개인 Study를 곁들인...
-
+  
 > 문서를 작성하고, 결재자를 선택하여 결재를 받을 수 있습니다.
-
+  
 #### 💡 내가 결재자라면?
 
 - 결재 승인
