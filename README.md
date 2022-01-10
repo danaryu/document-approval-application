@@ -1,5 +1,5 @@
 ## 기술 스택
-- Spring Boot 2.6.x (Java 11)
+- Spring Boot 2.6.2 (Java 11)
 - Hibernate, JPA
 - Gradle
 - Thymeleaf (공부 중.. 🥲) 
